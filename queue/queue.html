@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../styles.css">
+	<script>
+
+
+/* Queues */
+// using an array
+function Queue () { 
+    collection = [];
+    this.print = function() {
+        console.log(collection);
+    };
+    this.enqueue = function(element) { //push first item onto queue
+        collection.push(element);
+    };
+    this.dequeue = function() { //take item off the first item the queue
+        return collection.shift(); 
+    };
+    this.front = function() { //returns what item as at the front of the array without removing the item from the array
+        return collection[0];
+    };
+    this.size = function() {
+        return collection.length; 
+    };
+    this.isEmpty = function() { //check if empty
+        return (collection.length === 0); 
+    };
+}
+console.log("***** Begin Standard Queue (no priority) *******");
+var q = new Queue(); 
+q.enqueue('a'); 
+q.enqueue('b');
+q.enqueue('c');
+q.print();
+q.dequeue();
+console.log(q.front());
+q.print();
+
+// another way to make a queue: A Priority Queue. Pass the priority of the item into the queue with the element. Higher priority elements are put in the front.
+function PriorityQueue () {
+    var collection = [];
+    this.printCollection = function() {
+      (console.log(collection));
+    };
+    this.enqueue = function(element){ //like above but you have to check the priorities to see where to add teh element
+        if (this.isEmpty()){ 
+            collection.push(element);
+        } else { //if it's already got stuff in it
+            var added = false;
+            for (var i=0; i<collection.length; i++){ // go through each element in the queue 
+                 if (element[1] < collection[i][1]){ //check all priorities. Remember, index [1] is the priority. The element is [0], which you don't want. So this compares your new element's priority with the existing ones.
+                    collection.splice(i,0,element); //add your new element to the collection array
+                    added = true;
+                    break;
+                }
+            }
+            if (!added){ // if not added, then push to array
+                collection.push(element);
+            }
+        }
+    };
+    this.dequeue = function() {
+        var value = collection.shift();
+        console.log("Element removed is", value[0], "and its priority is", value[1]);
+        return value[0], value[1]; //you could also return just the element. I've added the priority
+    };
+    this.front = function() {
+        return collection[0];
+    };
+    this.size = function() {
+        return collection.length; 
+    };
+    this.isEmpty = function() {
+        return (collection.length === 0); 
+    };
+}
+
+console.log("***** Begin Priority Queue *******");
+var pq = new PriorityQueue(); 
+pq.enqueue(['Bananas', 2]); // pass in the element followed by the priority in an array
+pq.enqueue(['Monkeys', 3]);
+pq.enqueue(['Clown cars', 1]);
+pq.enqueue(['Top Hats', 2]); // if same priority as another item, will get pushed on in order
+pq.printCollection();
+// pq.dequeue(); // this will get rid of Clown cars since that's first in the queue
+console.log('pq.front(): ', pq.front());
+console.log('pq.size(): ', pq.size());
+pq.dequeue(); // this will get rid of Clown cars since that's first in the queue
+console.log('Running pq.dequeue(). This shifts off Clown cars.');
+console.log('pq.size(): ', pq.size());
+pq.printCollection(); 
+
+
+
+	</script>
+	<title>Queues in JS</title>
+</head>
+<body>
+
+    <h1>Queues in JavaScript</h1>
+    <h2>Queue time complexity</h2>
+
+<pre>
+╔═══════════╦═════════╦════════════╗
+║ Algorithm ║ Average ║ Worst Case ║
+╠═══════════╬═════════╬════════════╣
+║ Space     ║ O(n)    ║ O(n)       ║
+║ Search    ║ O(n)    ║ O(n)       ║
+║ Insert    ║ O(1)    ║ O(1)       ║
+║ Delete    ║ O(1)    ║ O(1)       ║
+╚═══════════╩═════════╩════════════╝
+</pre>
+
+<p>Use JavaScript Console to see the a queue in action. Queues are FIFO (First in first out).</p>
+
+<p>In JavaScript, you can use an array to do this.</p>
+
+<p>Code based on Beau Carnes' <a href="https://codepen.io/beaucarnes/pen/yMBGbR?editors=0012">Stacks Code Pen</a></p>
+
+</body>	
+</html>
+
+
+
+
+
+
+
+

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../styles.css">
+	<script>
+
+    /* Stacks */
+
+// traditional functions: push, pop, peek, length
+
+//make a stack. JS arrays already have all the methods you need.
+var letters = []; 
+
+var word = "DataStructures"
+
+var rword = ""; // reverse word for finding pallindromes. Use the stack to fill up the rword var with the reverse of the word variable
+
+// push letters of word into stack
+for (var i = 0; i < word.length; i++) {
+   letters.push(word[i]);
+}
+
+// pop off the stack in reverse order
+for (var i = 0; i < word.length; i++) {
+   rword += letters.pop(); //add one letter at a time from the stack by popping off the top letter. This necessarily reverses the word, because LIFO
+}
+
+if (rword === word) {
+   console.log(word + " is a palindrome.");
+}
+else {
+   console.log(word + " is not a palindrome.");
+}
+// *************************************************
+// Now for an example making a stack manually, i.e. without an array.
+// Creates a stack
+var Stack = function() {
+    this.count = 0; // the last item in the stack
+    this.storage = {}; // the object for the stack
+  
+    // Adds a value onto the end of the stack
+    this.push = function(value) { // pass in value that you want to add
+        this.storage[this.count] = value;
+        this.count++;
+    }
+    
+    // Removes and returns the value at the end of the stack
+    this.pop = function() {
+        if (this.count === 0) {
+            return undefined; // because there'd be nothing in the stack. So you won't do the rest of the code in this function.
+        }
+
+        this.count--; //since you're popping off something you must decrement
+        var result = this.storage[this.count];
+        delete this.storage[this.count]; // the delete
+        return result; //returns what was just deleted
+    }
+    
+    this.size = function() {
+        return this.count; //returns the number of items in the stack
+    }
+    
+    // Returns the value at the end of the stack, but doesn't remove it.
+    this.peek = function() { //don't pass in a value
+        return this.storage[this.count-1]; // if you didn't -1, it'd be the item after the final item, which is where you'd add a new item
+    }
+}
+
+var myStack = new Stack();
+
+myStack.push(1);
+myStack.push(2);
+console.log("Pushed 1 and 2 to myStack.")
+console.log("myStack.peek(): ", myStack.peek());
+console.log("myStack.pop(): ", myStack.pop());
+console.log("myStack.peek(): ", myStack.peek());
+myStack.push("DataStructures");
+console.log("Pushed a new word, DataStructures, to myStack.")
+console.log("myStack.size(): ", myStack.size());
+console.log("myStack.peek(): ", myStack.peek());
+console.log("myStack.pop(): ", myStack.pop());
+console.log("myStack.peek(): ", myStack.peek());
+
+
+
+	</script>
+	<title>Stacks in JS</title>
+</head>
+<body>
+
+    <h1>Stacks in JavaScript</h1>
+    <h2>Stack time complexity</h2>
+
+<pre>
+╔═══════════╦═════════╦════════════╗
+║ Algorithm ║ Average ║ Worst Case ║
+╠═══════════╬═════════╬════════════╣
+║ Space     ║ O(n)    ║ O(n)       ║
+║ Search    ║ O(n)    ║ O(n)       ║
+║ Insert    ║ O(1)    ║ O(1)       ║
+║ Delete    ║ O(1)    ║ O(1)       ║
+╚═══════════╩═════════╩════════════╝
+</pre>
+
+<p>Use JavaScript Console to see the stack in action. Stacks are LIFO (last in first out).</p>
+
+<p>Note: <code>pop()</code> will <code>console.log</code> what is popped.</p>
+
+<p>Code based on Beau Carnes' <a href="https://codepen.io/beaucarnes/pen/yMBGbR?editors=0012">Stacks Code Pen</a></p>
+
+</body>	
+</html>
+
+
+
+
+
+
+
+

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../styles.css">
+	<script>
+
+    /* LinkedList */
+
+function LinkedList() { 
+  var length = 0; 
+  var head = null; //start with head null because don't have a head yet
+
+//a linked list is made up of nodes, so create node
+  var Node = function(element){
+    this.element = element;  //this is the info
+    this.next = null;  //this is the link to the next node. This starts off pointing to null because there's only this first node. Every time you instantiate this, the .next is set to null, because it's the newest addition and now is at the tail
+  }; 
+
+  this.size = function(){
+    return length;
+  };
+
+  this.head = function(){
+    return head;
+  };
+
+  this.add = function(element){ //pass in an element to add
+    var node = new Node(element); //create a new node with that element
+    if(head === null){ //means there are no nodes in the linked list yet
+        head = node; // so the head is the one node
+    } else { // else, there's more than one node in the list and we're going to 
+        var currentNode = head; // set the current node to equal the head. We're going to start at the head node. In a linked list you have to start at the beginning and go through the list
+
+        while(currentNode.next){ // while there is a next node, go to the next one
+            currentNode  = currentNode.next;
+        }
+
+        currentNode.next = node; //now this is the node instead of null
+    }
+
+    length++; // then add to the length of the list
+  }; 
+
+// .remove() takes the element and and uses it to find and remove it
+  this.remove = function(element){
+    var currentNode = head;
+    var previousNode; //need to know previous mode when removing a node
+    if(currentNode.element === element){
+        head = currentNode.next;
+    } else { // if the head node isn't the node we are looking for, we go to the next node
+        while(currentNode.element !== element) { //while the node we're on doesn't equal the node we're searching for we keep going through the list.
+            previousNode = currentNode;
+            currentNode = currentNode.next;
+        }
+
+        previousNode.next = currentNode.next;
+    }
+
+    length --; //decrement the link
+  };
+  
+  this.isEmpty = function() {
+    return length === 0; // if length ===0 return true, else false
+  };
+
+  this.indexOf = function(element) { // to know the index of a certain element
+    var currentNode = head;
+    var index = -1;
+
+    while(currentNode){ // while currentNode isn't null, we keep moving
+        index++;
+        if(currentNode.element === element){ //if this is the one we're looking for return the index
+            return index;
+        }
+        currentNode = currentNode.next; // if it's not the one we're looking for, go to next
+    }
+
+    return -1;
+  };
+//this is opposite of the previous. Pass in an index to find the element. Start at the head and keep going through the list.
+  this.elementAt = function(index) {
+    var currentNode = head;
+    var count = 0;
+    while (count < index){ // until count is not less than index
+        count ++;
+        currentNode = currentNode.next // keep going through each node
+    }
+    return currentNode.element;
+  };
+  
+  //in addAt(), you can add anywhere in the list
+  this.addAt = function(index, element){
+    var node = new Node(element); //create a new node with the element that we pass in
+
+    var currentNode = head; //start at the beginning
+    var previousNode; // keep track of the previous node
+    var currentIndex = 0; //
+
+    if(index > length){ //if you pass in an index that is bigger than the list - we can't add to some place that doesn't even exist
+        return false;
+    }
+
+    if(index === 0){ // means we're trying to add the element to the head node
+        node.next = currentNode; // which would be the current head node
+        head = node; //set the head equal to the node we just passed in
+    } else { // or, if we don't want the index to be the head node
+        while(currentIndex < index){
+            currentIndex++; // go through each index
+            previousNode = currentNode;
+            currentNode = currentNode.next; // keep going
+        }
+        node.next = currentNode; //once we get to the number we wanted, set node.next to currentNode
+        previousNode.next = node; // then set previousNode.next to equal the node we're passing in
+    }
+    length++;
+  }
+  
+  this.removeAt = function(index) {
+    var currentNode = head;
+    var previousNode;
+    var currentIndex = 0;
+    if (index < 0 || index >= length){ //so can't remove a nexgative index or one greater than the length of the list
+        return null
+    }
+    if(index === 0){
+        head = currentNode.next;
+    } else {
+        while(currentIndex < index) {
+            currentIndex ++;
+            previousNode = currentNode;
+            currentNode = currentNode.next;
+        }
+        previousNode.next = currentNode.next
+    }
+    length--;
+    return currentNode.element; //return the node we're removing
+  }
+
+} 
+
+var myLinkedList = new LinkedList();
+console.log("myLinkedList: ", myLinkedList);
+myLinkedList.add('chicken long rice');
+myLinkedList.add('opihi');
+myLinkedList.add('poi');
+myLinkedList.add('pipi lau lau');
+myLinkedList.add('kalo');
+console.log("myLinkedList.size(): ", myLinkedList.size());
+console.log("myLinkedList.removeAt(3): ", myLinkedList.removeAt(3));
+console.log("myLinkedList.elementAt(3): ", myLinkedList.elementAt(3));
+console.log("myLinkedList.indexOf('kalo'): ", myLinkedList.indexOf('kalo'));
+console.log("myLinkedList.size(): ", myLinkedList.size());
+
+	</script>
+	<title>Linked Lists</title>
+</head>
+<body>
+
+    <h1>Linked List in JavaScript</h1>
+    <h2>Linked list time complexity</h2>
+
+<pre>
+╔═══════════╦═════════╦════════════╗
+║ Algorithm ║ Average ║ Worst Case ║
+╠═══════════╬═════════╬════════════╣
+║ Space     ║ O(n)    ║ O(n)       ║
+║ Search    ║ O(n)    ║ O(n)       ║
+║ Insert    ║ O(1)    ║ O(1)       ║
+║ Delete    ║ O(1)    ║ O(1)       ║
+╚═══════════╩═════════╩════════════╝
+</pre>
+
+<p>Use JavaScript Console to see the linked list in action.</p>
+
+<p>Code based on Beau Carnes' <a href="https://codepen.io/beaucarnes/pen/ybOvBq?editors=0012">Linked List Code Pen</a></p>
+
+</body>	
+</html>
+
+
+
+
+
+
+
+
