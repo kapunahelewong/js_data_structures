@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../styles.css">
+	<script>
+
+/* Maps */
+
+let myMap = function() {
+	this.collection = {}; // the things in the map
+	this.count = 0; // the number of items you have
+	this.size = function() { //returns count to get size
+		return this.count;
+	};
+	this.set = function(key, value) { // add something by passing in a key and value
+		this.collection[key] = value; // add to collection
+		this.count++; // increment
+	};
+	this.has = function(key) { // check if map has this key
+		return (key in this.collection); // the "in" operator returns true if the specified property returns true in the specified object
+	};
+	this.get = function(key) { // pass in key to get value
+		return (key in this.collection) ? this.collection[key] : null; // if the key is in this collection, return the key. If not, it's null
+	};
+	this.delete = function(key) { // delete item by key if it's in the collection
+		if (key in this.collection) { 
+			delete this.collection[key];
+			this.count--; // decrement the count since you're deleting
+		}
+	};
+	this.values = function() { // return an array of all the values in the map
+		let result = new Array();
+		for (let key of Object.keys(this.collection)) { // push each item into a new array
+			result.push(this.collection[key]);
+		};
+		return (result.length > 0) ? result : null; // if there's more than 0, return result
+	};
+	this.clear = function() { //clear all items from map and reset count to 0
+		this.collection = {};
+		this.count = 0;
+	};
+};
+console.log("************ instantiating handmade map *********");
+let map = new myMap();
+map.set('arms', 2);
+map.set('fingers', 10);
+map.set('eyes', 2);
+map.set('belly button', 1);
+
+console.log("map.get('fingers'): ", map.get('fingers'));
+console.log("map.size():", map.size());
+console.log("map.values(): ", map.values());
+
+console.log("************ instantiating JS Map() *********");
+let map2 = new Map();
+map2.has('hands'); // to see if the map has a certain value
+map2.entries(); //returns array of all the keys, values() returns all the values
+console.log("map2.entries(): ", map2.entries());
+
+// the following object and function will be set as keys below
+let keyObj = {},
+    keyFunc = function() {};
+
+map2.set('hello', 'string value'); // here's a string set to a key
+map2.set(keyObj, 'obj value'); //here is an object being set as a key
+map2.set(keyFunc, 'func value'); // here's a function set as a key
+map2.set(NaN, 'NaN value') // even Nan!
+
+console.log("map2.size: ", map2.size, "(because you added stuff)"); // notice no () because it's a property, not a method
+// console.log all the things you just did above^^
+console.log("Return value of the key called 'hello' with map2.get('hello'): ", map2.get('hello'));
+console.log("Get value of the key called keyObj with map2.get(keyObj): ", map2.get(keyObj));
+console.log("map2.get(keyFunc) ", map2.get(keyFunc));
+console.log("map2.get(NaN)", map2.get(NaN));
+
+	</script>
+	<title>Maps in JS</title>
+</head>
+<body>
+
+    <h1>Maps in JavaScript</h1>
+
+
+<pre>
+
+</pre>
+
+<p>Use JavaScript Console to see the map in action. Info about maps:</p>
+
+<ul>
+  <li>The keys are unique.</li>
+  <li>sometimes called an associative array or dictionary</li>
+  <li>fast look up of data based on key values</li>
+  <li>Unlike keys for an object (that can be strings or symbols), but keys for a Map can be any value (functions, numbers, objects, boolean, NaN, etc.).</li>
+
+</ul>
+<p>Objects have traditionally served this purpose in JavaScript.</p>
+
+<p>Code based on Beau Carnes' <a href="https://codepen.io/beaucarnes/pen/jBjobG?editors=0012">Maps Code Pen</a></p>
+
+</body>	
+</html>
+
+
+
+
+
+
+
+

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="../styles.css">
+	<script>
+
+/* Sets */
+// A manual version (you build it yourself)
+function mySet() {
+    // the var collection will hold the set
+    var collection = [];
+    // this method will check for the presence of an element and return true or false
+    this.has = function(element) {
+      //if the element isn't in the collection, it'll return -1. If it's not -1, the element is in the array
+        return (collection.indexOf(element) !== -1);
+    };
+    // this method will return all the values in the set
+    this.values = function() {
+        return collection;
+    };
+    // this method will add an element to the set
+    this.add = function(element) {
+        if(!this.has(element)){ // will add it if it isn't already in the set and return true
+            collection.push(element);
+            return true;
+        }
+        return false; // if it already has the element, it will return false.
+    };
+    // this method will remove an element from a set
+    this.remove = function(element) { //in ES6 spec, this one is called delete()
+        if(this.has(element)){ //check if in collection
+            index = collection.indexOf(element); //get the index of the element
+            collection.splice(index,1); //remove it, starting at the index of the array and going for one element
+            return true;
+            //From MDN, splice syntax: array.splice(start[, deleteCount[, item1[, item2[, ...]]]])
+        }
+        return false;
+    };
+    // this method will return the size of the collection
+    this.size = function() { //in ES6, size is a property, not a method. So in ES6, you'd do set.size, not set.size()
+        return collection.length;
+    };
+
+    // The following methods aren't in ES6, but are commonly used in sets in other languages
+    // this method will return the union of two sets. Combines, leaving out any duplicates
+    this.union = function(otherSet) { // pass in the set you want to combine with the first set
+        var unionSet = new mySet();
+        var firstSet = this.values(); // refers to values() method on line 18
+        var secondSet = otherSet.values();
+        firstSet.forEach(function(e){ //for each value (e), add the value to the new mySet.
+            unionSet.add(e); //the add() method already doesn't add the value if it's a duplicate
+        });
+        secondSet.forEach(function(e){ //now add the values in the secondSet to unionSet
+            unionSet.add(e);
+        });
+        return unionSet;
+    };
+    // this method will return the intersection (items that are in both sets) of two sets as a new set
+    this.intersection = function(otherSet) {
+        var intersectionSet = new mySet();
+        var firstSet = this.values(); // get all the values in the firstSet
+        firstSet.forEach(function(e){ //check to see if the otherSet has the value. If so, add it.
+            if(otherSet.has(e)){
+                intersectionSet.add(e);
+            }
+        });
+        return intersectionSet;
+    };
+    // this method will return the difference of two sets as a new set. All the items in one set but not in the other
+    this.difference = function(otherSet) {
+        var differenceSet = new mySet();
+        var firstSet = this.values();
+        firstSet.forEach(function(e){ //e is a value. If the other set doesn't have it, add it to differenceSet
+            if(!otherSet.has(e)){
+                differenceSet.add(e);
+            }
+        });
+        return differenceSet;
+    };
+    // this method will test if the set is a subset of a different set
+    // tests if the firstSet is completely contained in he second set.
+    this.subset = function(otherSet) {
+        var firstSet = this.values(); // get all the values of the first set
+        return firstSet.every(function(value) { //every() tests whether all the elements in the array pass the test implemented by the provided function
+          return otherSet.has(value); // check if all the items in firstSet are in otherSet.
+        });
+    };
+}
+
+console.log("*********** Begin handmade set ************");
+var setA = new mySet();  
+var setB = new mySet();  
+setA.add("a");  
+setB.add("b");  
+setB.add("c");  
+setB.add("a");  
+setB.add("d");  
+console.log("Is setA.subset(setB)? ", setA.subset(setB)); //is setA a subset of setB? true
+console.log("What's setA.intersection(setB).values()? ", setA.intersection(setB).values()); // returns a new set. The only thing they share is "a".
+console.log("What's setB.difference(setA).values()? ", setB.difference(setA).values());
+
+console.log("*********** Begin built-in JS Set() ************");
+
+// now using JavaScript's built-in set
+console.log("Instantiating a new Set(), setC and setD.")
+var setC = new Set();  
+var setD = new Set();  
+setC.add("a");  
+setD.add("b");  
+setD.add("c");  
+setD.add("a");  
+setD.add("d");  
+console.log("What's setD.values()?", setD.values()); //in the built-in set, when you call values(), instead of returning an array, it returns an object Set Iterator.
+
+setD.delete("a"); //instead of remove(), like in the handmade one up there
+console.log(setD.has("a"));
+console.log(setD.add("d")); //in ES6, the add() method doesn't return true or false about whether the item has been added or not. It will return the set itself, which is an object, so doesn't show the items inside.
+
+
+	</script>
+	<title>Sets in JS</title>
+</head>
+<body>
+
+    <h1>Sets in JavaScript</h1>
+
+    <p>Sets have certain characteristics:</p>
+    <ul>
+      <li>Are in no particular order</li>
+      <li>No repeated items</li>
+    </ul>
+    <p>Used to simply check for an item. ES2015 has a <code>Set()</code> object but doesn't have all the usual set methods, so you might have to make some yourself.</p>
+
+<p>Use the JavaScript Console to see the sets in action.</p>
+
+<p></p>
+
+<p>Code based on Beau Carnes' <a href="https://codepen.io/beaucarnes/pen/yMBGbR?editors=0012">Sets Code Pen</a>.</p>
+
+</body>	
+</html>
+
+
+
+
+
+
+
+
